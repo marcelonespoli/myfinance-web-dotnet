@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "Plano de Contas";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<button type="button" onclick="location.href='@Url.Action("Cadastrar", "PlanoConta")'" class="btn btn-block btn-primary">Criar item de Plano de Conta</button>
+<br><br>
+
+<table class="table table-bordered">
+    <tr>
+        <th>ID</th>
+        <th>Descrição</th>
+        <th>Tipo</th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @{
+        foreach(var item in (List<PlanoContaModel>)ViewBag.ListaPlanoConta)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Descricao</td>
+                <td>@item.Tipo</td>
+                <td><button type="button" class="btn btn-block btn-outline-warning" onclick="location.href='@Url.Action("Cadastrar", "PlanoConta", new { Id = item.Id })'">Editar</button></td>
+                <td><button type="button" class="btn btn-block btn-outline-danger" onclick="location.href='@Url.Action("Excluir", "PlanoConta", new { Id = item.Id })'">Excluir</button></td>
+            </tr>
+        }
+    }
+</table>
