@@ -1,42 +1,36 @@
 using myfinance_web_dotnet_domain.Entities;
-using myfinance_web_dotnet_infra;
+using myfinance_web_dotnet_domain.Interfaces;
 using myfinance_web_dotnet_service.Interfaces;
 
 namespace myfinance_web_dotnet_service
 {
     public class PlanoContaService : IPlanoContaService
     {
-        private readonly MyFinanceDbContext _dbContext;
+        private readonly IPlanoContaRepository _planoContaRepository;
 
-        public PlanoContaService(MyFinanceDbContext dbContext)
+        public PlanoContaService(IPlanoContaRepository planoContaRepository)
         {
-            _dbContext = dbContext;
+            _planoContaRepository = planoContaRepository;
         }
 
         public void Cadastar(PlanoConta entidade)
         {
-            if (entidade.Id == null)
-                _dbContext.PlanoConta.Add(entidade);
-            else
-                _dbContext.PlanoConta.Update(entidade);
-            _dbContext.SaveChanges();
+            _planoContaRepository.Cadastar(entidade);
         }
 
         public void Excluir(int id)
         {
-            var entity = new PlanoConta { Id = id };
-            _dbContext.PlanoConta.Remove(entity);
-            _dbContext.SaveChanges();
+            _planoContaRepository.Excluir(id);
         }
 
         public List<PlanoConta> ListarRegistros()
         {
-            return _dbContext.PlanoConta.ToList();
+            return _planoContaRepository.ListarRegistros();
         }
 
         public PlanoConta RetornarRegistro(int id)
         {
-            return _dbContext.PlanoConta.Where(x => x.Id == id).FirstOrDefault();
+            return _planoContaRepository.RetornarRegistro(id);
         }
 
     }
